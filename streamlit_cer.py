@@ -18,9 +18,9 @@ if uploaded_file is not None:
 
     # Select which column has the reference and which has the transcription
     columns = df.columns.tolist()
-    reference_col = st.selectbox("Select the reference column", columns)
-    transcription_col = st.selectbox("Select the transcription column", columns)
-    
+    transcription_col = st.selectbox("Select the transcription column", columns, index=0)
+    reference_col = st.selectbox("Select the reference column", columns, index=1)
+
     result_df = pd.DataFrame(columns=["reference", "transcription", "cer"])
     cer = CharErrorRate()
     for idx, row in df.iterrows():
@@ -37,3 +37,16 @@ if uploaded_file is not None:
         
     st.write("CER Results:")
     st.dataframe(result_df)
+    
+    
+    # Download the results as an xlsx file
+    result_file = "cer_results.xlsx"    
+    result_df.to_excel(result_file, index=False)
+    
+    with open(result_file, "rb") as file:
+        btn = st.download_button(
+            label="Download CER results as XLSX",
+            data=file,
+            file_name=result_file,
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
