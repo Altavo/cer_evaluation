@@ -24,12 +24,15 @@ if uploaded_file is not None:
     result_df = pd.DataFrame(columns=["reference", "transcription", "cer"])
     cer = CharErrorRate()
     for idx, row in df.iterrows():
-        reference =  ''.join(normalize_sentence(str(row[reference_col])))
-        transcription =  ''.join(normalize_sentence(str(row[transcription_col])))
+        reference_str = str(row[reference_col])
+        transcription_str = str(row[transcription_col])
+
+        reference =  ''.join(normalize_sentence(reference_str))
+        transcription =  ''.join(normalize_sentence(transcription_str))
 
         cer_score = cer(transcription, reference)
         
-        result_df.loc[idx] = [reference, transcription, cer_score.item()]
+        result_df.loc[idx] = [reference_str, transcription_str, cer_score.item()]
         
         
     st.write("CER Results:")
