@@ -1,0 +1,7 @@
+torchmetric
+jiwer
+pandas
+openpyxl
+text_normalize
+streamlit
+num2words
